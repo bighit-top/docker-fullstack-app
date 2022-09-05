@@ -9,16 +9,18 @@ services:
     stdin_open: true
     mem_limit: 128m
 
-  nginx:
+  nginx-proxy:
     restart: always
     image: top0830/docker-nginx
     ports:
       - "80:80"
     mem_limit: 128m
+    links:
+      - frontend
+      - backend
 
   backend:
     image: top0830/docker-backend
-    container_name: app_backend
     volumes:
       - /app/node_modules
       - ./backend:/app
