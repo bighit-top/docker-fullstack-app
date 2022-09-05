@@ -15,9 +15,6 @@ services:
     ports:
       - "80:80"
     mem_limit: 128m
-    link:
-      - frontend
-      - backend
 
   backend:
     image: top0830/docker-backend
