@@ -1,37 +1,39 @@
-version: "3"
+version: '3'
 services:
 
   frontend:
-    image: top0830/docker-frontend
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
     volumes:
       - /app/node_modules
       - ./frontend:/app 
+    container_name: app_frontend
     stdin_open: true
-    mem_limit: 128m
 
   nginx:
     restart: always
-    image: top0830/docker-nginx
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
     ports:
-      - "80:80"
-    mem_limit: 128m
-    link:
-      - frontend
-      - backend
+      - "3000:80"
+    container_name: app_nginx
 
   backend:
-    image: top0830/docker-backend
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend
     container_name: app_backend
     volumes:
       - /app/node_modules
       - ./backend:/app
-    mem_limit: 128m
     environment:
-      MYSQL_HOST: $MYSQL_HOST
-      MYSQL_USER: $MYSQL_USER
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE: $MYSQL_DATABASE
-      MYSQL_PORT: $MYSQL_PORT
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: test1234
+      MYSQL_DATABASE: myapp
+      MYSQL_PORT: 3306
 
   # mysql:
   #   build: ./mysql
@@ -48,4 +50,3 @@ services:
   #   command: 
   #     - --character-set-server=utf8 
   #     - --collation-server=utf8_general_ci
-
