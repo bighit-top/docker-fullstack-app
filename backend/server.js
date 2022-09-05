@@ -16,7 +16,7 @@ db.pool.query(`CREATE TABLE lists (
     value TEXT,
     PRIMARY KEY (id)    
 )`, (err, results, fileds) => {
-    console.logt('results', results);
+    console.log('results', results);
 });
 
 //db lists 테이블에 있는 모든 데이터를 프론트 서버에 보내줌
